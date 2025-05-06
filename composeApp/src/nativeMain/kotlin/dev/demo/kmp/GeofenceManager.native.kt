@@ -1,33 +1,26 @@
 package dev.demo.kmp
+import platform.CoreLocation.CLCircularRegion
+import platform.CoreLocation.CLLocationManager
+import platform.CoreLocation.CLLocationManagerDelegateProtocol
+import platform.darwin.NSObject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-actual class GeofenceManager : NSObject(), CLLocationManagerDelegateProtocol {
-    private val locationManager = CLLocationManager()
-    private var currentRegion: CLCircularRegion? = null
 
-    actual override fun startGeofencing(latitude: Double, longitude: Double, radius: Float) {
-        locationManager.requestWhenInUseAuthorization()
+actual class GeofenceManager {
 
-        val center = CLLocationCoordinate2DMake(latitude, longitude)
-        val region = CLCircularRegion(
-            center = center,
-            radius = radius.toDouble(),
-            identifier = "kmp_geofence"
-        ).apply {
-            notifyOnExit = true
+        private val locationManager = CLLocationManager()
+
+        actual  fun startGeofencing(latitude: Double, longitude: Double, radius: Float) {
+            // iOS geofencing implementation
         }
 
-        locationManager.startMonitoringForRegion(region)
-        currentRegion = region
-    }
+        actual fun stopGeofencing() {
+            // Stop geofencing
+        }
 
-    actual override fun stopGeofencing() {
-        currentRegion?.let { locationManager.stopMonitoringForRegion(it) }
-    }
+        actual   fun isGeofenceSupported(): Boolean {
+            return CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion::class.java)
+        }
 
-    actual override fun isGeofenceSupported(): Boolean = true
-
-    @Override
-    override fun locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        GeofenceViewModel().triggerGeofenceAlert()
-    }
 }

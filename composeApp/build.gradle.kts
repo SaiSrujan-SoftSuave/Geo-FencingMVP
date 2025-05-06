@@ -35,6 +35,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
             implementation("com.google.android.gms:play-services-location:21.3.0")
+            implementation("com.github.jordond:compass:1.0.0")
 
         }
         commonMain.dependencies {

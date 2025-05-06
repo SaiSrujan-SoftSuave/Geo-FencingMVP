@@ -7,14 +7,12 @@ import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.CLLocationManagerDelegateProtocol
 import platform.darwin.NSObject
 
-
-// IOSCompassManager.kt
-actual class CompassManager : NSObject(), CLLocationManagerDelegateProtocol {
+actual class CompassManager  : NSObject(), CLLocationManagerDelegateProtocol {
     private val locationManager = CLLocationManager()
     private val _heading = MutableStateFlow(0f)
-    actual val heading: StateFlow<Float> = _heading
+    actual   val heading: StateFlow<Float> = _heading
 
-    actual fun start() {
+    actual  fun start() {
         locationManager.startUpdatingHeading()
         locationManager.delegate = this
     }
